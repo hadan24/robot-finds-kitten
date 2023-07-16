@@ -1,9 +1,16 @@
 import curses as c
-from random import randrange
+from random import randrange, seed
 
 w = c.initscr()
 MAX_Y, MAX_X = w.getmaxyx()		# AKA lines, cols
 c.endwin()
+
+# Redefining arrow key codes because they're
+#	different for me for some reason
+c.KEY_UP = 450
+c.KEY_LEFT = 452
+c.KEY_DOWN = 456
+c.KEY_RIGHT = 454
 
 PLAYER_COLOR = 1
 
