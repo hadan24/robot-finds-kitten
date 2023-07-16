@@ -2,16 +2,13 @@ from defs import c, randrange, PLAYER_COLOR, MAX_X, MAX_Y
 
 class player:
 	def __init__(self) -> None:
-		self.__symbol = '#'
-		self.__x = randrange(MAX_X)
-		self.__y = randrange(MAX_Y)
-		self.__color_pair = PLAYER_COLOR
-		self.__step_size = 1
+		self.__symbol: chr = '#'
+		self.__x: int = randrange(MAX_X)
+		self.__y: int = randrange(MAX_Y)
+		self.__color_pair: int = PLAYER_COLOR
+		self.__step_size: int = 1
 
-	def __str__(self) -> str:
-		return f"{self.__symbol}: {self.__x}, {self.__y}"
-
-	def move(self, key_pressed):
+	def move(self, key_pressed: int):
 		if (key_pressed == c.KEY_UP) or (key_pressed == ord('w')):
 			self.__y -= self.__step_size
 		elif (key_pressed == c.KEY_LEFT) or (key_pressed == ord('a')):
