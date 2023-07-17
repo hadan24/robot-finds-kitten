@@ -24,7 +24,7 @@ def start(window) -> None:
 		c.init_color(COLOR_LAVENDER, 600, 600, 800)
 
 	c.init_pair(PLAYER_COLOR_PAIR, COLOR_BLACK, COLOR_CYAN)
-	c.init_pair(CAT_COLOR_PAIR, COLOR_GRAY, COLOR_ORANGE)
+	c.init_pair(CAT_COLOR_PAIR, COLOR_BLACK, COLOR_ORANGE)
 	for i in range(NUM_OBJ_COLOR_PAIRS):
 		c.init_pair(OBJ_COLOR_PAIRS[i], i+1, COLOR_BLACK)
 	
@@ -43,15 +43,15 @@ def main(w):
 
 	while ch != ord('q'):
 		ch = w.getch()
+
+		w.clear()
 		check_x, check_y = robot.get_collision_coordinates(ch)
-		
+
 		if objs.check_collisions(check_x, check_y):
 			objs.interact(check_x, check_y, w)
 		else:
 			robot.move(ch)
-
-		w.clear()
-		w.addstr(f"{check_x, check_y}")
+			
 		robot.draw(w)
 		objs.draw_all(w)
 		w.refresh()
