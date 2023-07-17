@@ -1,22 +1,14 @@
-from defs import c, randrange, CAT, CAT_COLOR, MAX_X, \
-	MAX_Y, OBJ_COLOR_PAIRS, NUM_OBJ_COLORS, OBJS, NUM_OBJS
+from defs import c, randrange, CAT, CAT_COLOR_PAIR,	MIN_X, MIN_Y, \
+	MAX_X, MAX_Y, OBJ_COLOR_PAIRS, NUM_OBJ_COLOR_PAIRS, OBJS, NUM_OBJS
 
 class object_list:
-	class __obj:
-		def __init__(self, is_cat: bool = False) -> None:
-			self.symbol, self.message = CAT if is_cat \
-				else OBJS[randrange(NUM_OBJS)]
-			self.color_pair: int = CAT_COLOR if is_cat \
-				else OBJ_COLOR_PAIRS[randrange(NUM_OBJ_COLORS)]
-			self.x: int = randrange(MAX_X)
-			self.y: int = randrange(MAX_Y)
-
 	def __init__(self, to_spawn: int = 0) -> None:
-		self.__list: list = [self.__obj(True)]
-		self.__size: int = to_spawn + 1
+		# 1st obj is always cat
+		self.__list = [self.__obj(True)]
+		self.__size = to_spawn + 1
+
 		for i in range(1, self.__size):
 			self.__list.append(self.__obj())
-
 			for j in range(0, i):
 				self.__fix_overlaps(i, j)
 
@@ -24,6 +16,27 @@ class object_list:
 		for obj in self.__list:
 			window.addch(obj.y, obj.x, obj.symbol, \
 				c.color_pair(obj.color_pair))
+			
+	def check_collisions(self, x: int, y: int) -> bool:
+		for obj in self.__list:
+			if obj.x == x and obj.y == y:
+				return True
+		return False
+	
+	def interact(self, x: int, y: int, w) -> None:
+		for obj in self.__list:
+			if obj.x == x and obj.y == y:
+				w.addstr(0, 0, obj.message,
+	     			c.color_pair(obj.color_pair))
+
+	class __obj:
+		def __init__(self, is_cat: bool = False) -> None:
+			self.symbol, self.message = CAT if is_cat \
+				else OBJS[randrange(NUM_OBJS)]
+			self.color_pair: int = CAT_COLOR_PAIR if is_cat \
+				else OBJ_COLOR_PAIRS[randrange(NUM_OBJ_COLOR_PAIRS)]
+			self.x: int = randrange(MIN_X, MAX_X)
+			self.y: int = randrange(MIN_Y, MAX_Y)
 
 	def __fix_overlaps(self, i1, i2) -> None:
 		curr: self.__obj = self.__list[i1]

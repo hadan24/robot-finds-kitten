@@ -17,7 +17,7 @@ targeting an entirely different player experience.
 	game in terms of finding that minimal path.
 
 2. My objects, symbols will be marked `thusly`:
-	* Battery `B` - consume to immediately regain a random, small percentage of battery life
+	* Battery `I` - consume to immediately regain a random, small percentage of battery life
 	* Portable Charger `d` - the next few steps (random amount) cost no battery life
 	* Wall `@` - multi-space, blocks path
 	* Wall socket `:` - interact for multiple turns to recharge as much as desired
