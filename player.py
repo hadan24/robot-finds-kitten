@@ -9,7 +9,10 @@ class player:
 		self.__color_pair: int = PLAYER_COLOR_PAIR
 		self.__step_size: int = 1
 
-	def get_collision_coordinates(self, key_pressed: int):
+	# Returns coordinates for what's in front of player
+	#	for interaction/collision purposes
+	#	*** ideally should be called BEFORE moving player ***
+	def get_collision_coordinates(self, key_pressed: int) -> tuple[int, int]:
 		dir: str = self.__direction_from_key(key_pressed)
 		if dir == "up":
 			return (self.__x, self.__y-self.__step_size)
@@ -22,8 +25,7 @@ class player:
 		else:
 			return 0, 0
 
-	# Move player character and/or handle collisions
-	def move(self, key_pressed: int):
+	def move(self, key_pressed: int) -> None:
 		dir: str = self.__direction_from_key(key_pressed)
 
 		if dir == "up":			self.__y -= self.__step_size
@@ -37,6 +39,7 @@ class player:
 	       self.__symbol, c.color_pair(self.__color_pair))
 	
 
+	# *** Little helper section :) ***
 	def __screen_wrap(self) -> None:
 		if self.__y >= MAX_Y:		self.__y = MIN_Y
 		elif self.__y < MIN_Y:		self.__y = MAX_Y - 1

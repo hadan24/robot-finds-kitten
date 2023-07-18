@@ -1,17 +1,19 @@
 import curses as c
 from random import randrange, seed
+import time
 
 PLAYER_COLOR_PAIR: int = 1
+PLAYER_CHAR: chr = '#'
 
-CAT: tuple = ('M', "Congratulations! You found kitten!")
+CAT: tuple[chr, str] = ('M', " Congratulations! You found kitten! ")
 CAT_COLOR_PAIR: int = 2
 
-OBJS: list = [
-	('I', "battery test"),
-	('d', "charger test"),
-	('@', "wall test"),
-	(':', "socket test"),
-	('8', "camera test")
+OBJS: list[tuple[chr, str]] = [
+	('I', " A battery! Some much-needed juice. "),
+	('d', " This portable charger can keep you going a bit longer. "),
+	('@', " Drats, a wall. Gonna have to go around it. "),
+	(':', " A wall socket. This seems like a good time to plug in. "),
+	('8', " Some enhanced parts! These'll save a few steps. ")
 ]
 NUM_OBJS: int = len(OBJS)
 
@@ -32,22 +34,22 @@ COLOR_PURPLE: int = 10
 COLOR_LAVENDER: int = 11
 
 OBJ_COLOR_PAIR_OFFSET: int = 2
-OBJ_GRAY_PAIR: int = COLOR_GRAY + OBJ_COLOR_PAIR_OFFSET
-OBJ_WHITE_PAIR: int = COLOR_WHITE + OBJ_COLOR_PAIR_OFFSET
-OBJ_RED_PAIR: int = COLOR_RED + OBJ_COLOR_PAIR_OFFSET
-OBJ_GREEN_PAIR: int = COLOR_GREEN + OBJ_COLOR_PAIR_OFFSET
-OBJ_BLUE_PAIR: int = COLOR_BLUE + OBJ_COLOR_PAIR_OFFSET
-OBJ_YELLOW_PAIR: int = COLOR_YELLOW + OBJ_COLOR_PAIR_OFFSET
-OBJ_CYAN_PAIR: int = COLOR_CYAN + OBJ_COLOR_PAIR_OFFSET
-OBJ_MAGENTA_PAIR: int = COLOR_MAGENTA + OBJ_COLOR_PAIR_OFFSET
-OBJ_ORANGE_PAIR: int = COLOR_ORANGE + OBJ_COLOR_PAIR_OFFSET
-OBJ_PURPLE_PAIR: int = COLOR_PURPLE + OBJ_COLOR_PAIR_OFFSET
-OBJ_LAVENDER_PAIR: int = COLOR_LAVENDER + OBJ_COLOR_PAIR_OFFSET
+GRAY_PAIR: int = COLOR_GRAY + OBJ_COLOR_PAIR_OFFSET
+WHITE_PAIR: int = COLOR_WHITE + OBJ_COLOR_PAIR_OFFSET
+RED_PAIR: int = COLOR_RED + OBJ_COLOR_PAIR_OFFSET
+GREEN_PAIR: int = COLOR_GREEN + OBJ_COLOR_PAIR_OFFSET
+BLUE_PAIR: int = COLOR_BLUE + OBJ_COLOR_PAIR_OFFSET
+YELLOW_PAIR: int = COLOR_YELLOW + OBJ_COLOR_PAIR_OFFSET
+CYAN_PAIR: int = COLOR_CYAN + OBJ_COLOR_PAIR_OFFSET
+MAGENTA_PAIR: int = COLOR_MAGENTA + OBJ_COLOR_PAIR_OFFSET
+ORANGE_PAIR: int = COLOR_ORANGE + OBJ_COLOR_PAIR_OFFSET
+PURPLE_PAIR: int = COLOR_PURPLE + OBJ_COLOR_PAIR_OFFSET
+LAVENDER_PAIR: int = COLOR_LAVENDER + OBJ_COLOR_PAIR_OFFSET
 
-OBJ_COLOR_PAIRS: list = [ OBJ_GRAY_PAIR, OBJ_WHITE_PAIR,
-	OBJ_RED_PAIR, OBJ_GREEN_PAIR, OBJ_BLUE_PAIR,
-	OBJ_YELLOW_PAIR, OBJ_CYAN_PAIR, OBJ_MAGENTA_PAIR,
-	OBJ_ORANGE_PAIR, OBJ_PURPLE_PAIR, OBJ_LAVENDER_PAIR
+OBJ_COLOR_PAIRS: list[int] = [ GRAY_PAIR, WHITE_PAIR,
+	RED_PAIR, GREEN_PAIR, BLUE_PAIR,
+	YELLOW_PAIR, CYAN_PAIR, MAGENTA_PAIR,
+	ORANGE_PAIR, PURPLE_PAIR, LAVENDER_PAIR
 ]
 NUM_OBJ_COLOR_PAIRS: int = len(OBJ_COLOR_PAIRS)
 

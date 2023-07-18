@@ -17,17 +17,24 @@ class object_list:
 			window.addch(obj.y, obj.x, obj.symbol, \
 				c.color_pair(obj.color_pair))
 			
+	# Takes the coordinates that the collider (not collidee)
+	#	has/would run into, checks if collision has happened
 	def check_collisions(self, x: int, y: int) -> bool:
 		for obj in self.__list:
 			if obj.x == x and obj.y == y:
 				return True
 		return False
 	
-	def interact(self, x: int, y: int, w) -> None:
+	# Let's interacter do stuff with the object on the given space,
+	#	returns whether the object is the kitten
+	def interact(self, x: int, y: int, w) -> bool:
 		for obj in self.__list:
 			if obj.x == x and obj.y == y:
 				w.addstr(0, 0, obj.message,
 	     			c.color_pair(obj.color_pair))
+				
+				return True if obj.symbol == CAT[0] else False
+
 
 	class __obj:
 		def __init__(self, is_cat: bool = False) -> None:

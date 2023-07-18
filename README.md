@@ -21,7 +21,7 @@ targeting an entirely different player experience.
 	* Portable Charger `d` - the next few steps (random amount) cost no battery life
 	* Wall `@` - multi-space, blocks path
 	* Wall socket `:` - interact for multiple turns to recharge as much as desired
-	* Enhanced cameras `8` - can check objects from further away (can stack)
+	* Enhanced parts `8` - can interact with objects from further away (can stack)
 
 3. Each step or every few steps costs some battery life, and the robot
 	must find the kitten before running completely out.
