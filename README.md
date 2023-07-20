@@ -16,7 +16,7 @@ targeting an entirely different player experience.
 	possible, turning this into more of a puzzle-/strategy-like
 	game in terms of finding that minimal path.
 
-2. My objects, symbols will be marked `thusly`:
+2. My objects (symbols will be marked `thusly`):
 	* Battery `I` - consume to immediately regain a random, small percentage of battery life
 	* Portable Charger `d` - consume and the next few steps (random amount) will cost no battery life
 	* Wall `@` - multi-space, blocks path

@@ -33,6 +33,14 @@ class object_list:
 				w.addstr(0, 0, obj.msg, c.color_pair(obj.color_pair))
 				return obj.symbol
 
+	def fix_external_overlaps(self, ext_x: int, ext_y: int) -> None:
+		i = 0
+		while i < self.__size:
+			obj = self.__list[i]
+			if (obj.x == ext_x) and (obj.y == ext_y):
+				obj.x += (i+1) if (obj.x-1) <= MIN_X else -(i+1)
+			else:	i += 1
+
 
 	class __obj:
 		def __init__(self, is_cat: bool = False) -> None:
@@ -48,7 +56,4 @@ class object_list:
 		to_cmp: self.__obj = self.__list[i2]
 
 		if (curr.x == to_cmp.x) and (curr.y == to_cmp.y):
-			if (curr.x + 1) >= MAX_X:
-				curr.x -= i2
-			else:
-				curr.x += i2
+			curr.x += (-i2) if (curr.x+1) >= MAX_X else i2

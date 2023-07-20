@@ -7,14 +7,18 @@ class player:
 		self.__x: int = randrange(MIN_X, MAX_X)
 		self.__y: int = randrange(MIN_Y, MAX_Y)
 		self.__color_pair: int = PLAYER_COLOR_PAIR
+		
 		self.__step_size: int = 1
+
 		self.__battery_capacity: int = 50
 		self.__battery_lvl: int = self.__battery_capacity
 
 	# Returns coordinates for what's in front of player
 	#	for interaction/collision purposes
 	#	*** ideally should be called BEFORE moving player ***
-	def get_collision_coordinates(self, key_pressed: int) -> tuple[int, int]:
+	def get_collision_coordinates(self, key_pressed: int) -> \
+		tuple[int, int]:
+
 		dir: str = self.__direction_from_key(key_pressed)
 		if dir == "up":
 			return (self.__x, self.__y-self.__step_size)
@@ -35,7 +39,7 @@ class player:
 		elif dir == "down":		self.__y += self.__step_size
 		elif dir == "right":	self.__x += self.__step_size
 
-		if dir != "invalid":	self.__battery -= randrange(2)
+		if dir != "invalid":	self.__battery_lvl -= randrange(2)
 		self.__screen_wrap()
 
 	def draw(self, window) -> None:
@@ -43,15 +47,33 @@ class player:
 	       self.__symbol, c.color_pair(self.__color_pair))
 		
 		battery_UI = f" current battery % = " + \
-			f"{self.__battery}/{self.__battery_capacity} "
+			f"{self.__battery_lvl}/{self.__battery_capacity} "
 		window.addstr(0, MAX_X-len(battery_UI)+1, battery_UI, \
 			c.color_pair(self.__color_pair))
 		
-	def apply_obj_effect(self, obj: chr):
-		pass
+	def apply_obj_effect(self, obj: chr) -> bool:
+		if obj == 'I':
+			self.__battery_lvl += 3
+			self.__battery_capacity += 3
+			return True
+		if obj == 'd':
+			self.__battery_lvl = \
+				min(self.__battery_lvl+5, self.__battery_capacity)
+			return True
+		if obj == '@':
+			return False
+		if obj == ':':
+			self.__battery_lvl = \
+				min(self.__battery_lvl+2, self.__battery_capacity)
+			return False
+		if obj == '*':
+			return True
 
 	def battery_dead(self) -> bool:
 		return self.__battery_lvl <= 0
+	
+	def location(self) -> tuple[int, int]:
+		return self.__x, self.__y
 	
 
 	# *** Little helper section :) ***

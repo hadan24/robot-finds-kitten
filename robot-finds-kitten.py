@@ -182,6 +182,8 @@ def main(w):
 	robot = player()
 	objs = object_list((MAX_X * MAX_Y) // 200)
 		# number of objects should scale w/ window area
+	objs.fix_external_overlaps(
+		robot.location()[0], robot.location()[1])
 
 	ch: int = 0
 	player_quit: bool = False
@@ -189,6 +191,8 @@ def main(w):
 	player_won: bool = False	# False = lose, True = win
 
 	while not (player_quit or game_done):
+		ch = w.getch()
+
 		w.clear()
 		check_x, check_y = robot.get_collision_coordinates(ch)
 
@@ -206,18 +210,15 @@ def main(w):
 		robot.draw(w)
 		objs.draw_all(w)
 		w.refresh()
-		ch = w.getch()
 		player_quit = ch == ord('q')
 
 	if player_quit:	exit(0)
 
 	cutscene_window = c.newwin(1, MAX_X+1, 0, 0)
-	if not player_won:
-		lose_cutscene(cutscene_window)
-	elif player_won:
-		win_cutscene(cutscene_window)
+	if player_won:	win_cutscene(cutscene_window)
+	else:	lose_cutscene(cutscene_window)
 	
-	quit_message()
+	quit_message(w)
 
 # Automatically turns off echo
 # 	and turns on cbreak, keypad, colors (if supported)
