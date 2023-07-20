@@ -122,6 +122,49 @@ def win_cutscene(window) -> None:
 	window.refresh()
 	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
 
+def lose_cutscene(window) -> None:
+	# Animation goal
+	# *#      M
+	# *  H    M
+	# *   f   M
+	# *    _  M
+	lose_msg: str = " Oh no your battery has run out! You lose... "
+	robot_start: int = len(lose_msg) + 2
+	kitty_start: int = robot_start + 7
+	cutscene_start = time.time()
+	wait_time: float = 1.25
+
+	window.clear()
+	window.addstr(0, 0, lose_msg, c.color_pair(CAT_COLOR_PAIR))
+	window.addch(0, robot_start, PLAYER_CHAR,
+		c.color_pair(PLAYER_COLOR_PAIR))
+	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
+	window.refresh()
+	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
+
+	window.clear()
+	window.addstr(0, 0, lose_msg, c.color_pair(CAT_COLOR_PAIR))
+	window.addch(0, robot_start + 2, 'H',
+		c.color_pair(PLAYER_COLOR_PAIR))
+	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
+	window.refresh()
+	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
+
+	window.clear()
+	window.addstr(0, 0, lose_msg, c.color_pair(CAT_COLOR_PAIR))
+	window.addch(0, robot_start + 3, 'f',
+		c.color_pair(PLAYER_COLOR_PAIR))
+	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
+	window.refresh()
+	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
+
+	window.clear()
+	window.addstr(0, 0, lose_msg, c.color_pair(CAT_COLOR_PAIR))
+	window.addch(0, robot_start + 4, '_',
+		c.color_pair(PLAYER_COLOR_PAIR))
+	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
+	window.refresh()
+	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
 
 def main(w):
 	start()
@@ -129,11 +172,15 @@ def main(w):
 
 	robot = player()
 	objs = object_list((MAX_X * MAX_Y) // 200)
+		# number of objects should scale w/ window area
 
 	ch: int = 0
 	player_won: bool = False
+	curr_battery = MAX_BATTERY
 
-	while (ch != ord('q')) and (not player_won):
+	while (ch != ord('q')) and (not player_won) \
+		and (curr_battery > 0):
+
 		ch = w.getch()
 
 		w.clear()
@@ -144,14 +191,22 @@ def main(w):
 			player_won = True if interacted == CAT[0] else False
 			robot.apply_obj_effect(interacted)
 		else:
-			robot.move(ch)
+			curr_battery = robot.move(ch)
 
 		robot.draw(w)
 		objs.draw_all(w)
 		w.refresh()
 		
-	if player_won:
-		cutscene_window = c.newwin(1, MAX_X, 0, 0)
+	cutscene_window = c.newwin(1, MAX_X+1, 0, 0)
+	if curr_battery <= 0:
+		lose_cutscene(cutscene_window)
+		w.addstr(1, 0, " Press any key to quit. ",
+	   		c.color_pair(PLAYER_COLOR_PAIR))
+		w.refresh()
+		c.flushinp()
+		w.getch()
+
+	elif player_won:
 		win_cutscene(cutscene_window)
 		w.addstr(1, 0, " Press any key to quit. ",
 	   		c.color_pair(PLAYER_COLOR_PAIR))
