@@ -51,7 +51,7 @@ def title_screen(window) -> None:
 	quit: str = "Press Q at any time to quit."
 	q_offset: int = 6
 
-	sendoff: str = "Good luck, robo."
+	sendoff: str = "Good luck, friend."
 
 	window.addstr(title_line, left_margin, welcome,
 		title_attribute | c.A_UNDERLINE)
@@ -128,7 +128,7 @@ def main(w):
 	title_screen(w)
 
 	robot = player()
-	objs = object_list(5)
+	objs = object_list((MAX_X * MAX_Y) // 200)
 
 	ch: int = 0
 	player_won: bool = False
@@ -140,7 +140,9 @@ def main(w):
 		check_x, check_y = robot.get_collision_coordinates(ch)
 
 		if objs.check_collisions(check_x, check_y):
-			player_won = objs.interact(check_x, check_y, w)
+			interacted = objs.interact(check_x, check_y, w)
+			player_won = True if interacted == CAT[0] else False
+			robot.apply_obj_effect(interacted)
 		else:
 			robot.move(ch)
 

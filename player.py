@@ -37,6 +37,9 @@ class player:
 	def draw(self, window) -> None:
 		window.addch(self.__y, self.__x, \
 	       self.__symbol, c.color_pair(self.__color_pair))
+		
+	def apply_obj_effect(self, obj: chr):
+		pass
 	
 
 	# *** Little helper section :) ***

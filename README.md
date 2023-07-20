@@ -33,7 +33,12 @@ targeting an entirely different player experience.
 6. 
 
 7. My "AAA" version would include more potential items to interact
-	with and thus more ways to obstruct or help the player.
+	with and thus more ways to obstruct or help the player. Since I
+	have been on a modern roguelike kick with Supergiant's _Hades_,
+	It could include multiple randomly generated levels, in which
+	objects spawn at different rates to vary the difficulty. Another
+	possible route would be to have hand-crafted levels to take this
+	more into a puzzle-like direction.
 
 ## How it went
 

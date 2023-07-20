@@ -26,19 +26,18 @@ class object_list:
 		return False
 	
 	# Let's interacter do stuff with the object on the given space,
-	#	returns whether the object is the kitten
-	def interact(self, x: int, y: int, w) -> bool:
+	#	returns whether the object's symbol for special effects
+	def interact(self, x: int, y: int, w) -> chr:
 		for obj in self.__list:
 			if obj.x == x and obj.y == y:
-				w.addstr(0, 0, obj.message,
-	     			c.color_pair(obj.color_pair))
+				w.addstr(0, 0, obj.msg, c.color_pair(obj.color_pair))
 				
-				return True if obj.symbol == CAT[0] else False
+				return obj.symbol
 
 
 	class __obj:
 		def __init__(self, is_cat: bool = False) -> None:
-			self.symbol, self.message = CAT if is_cat \
+			self.symbol, self.msg = CAT if is_cat \
 				else OBJS[randrange(NUM_OBJS)]
 			self.color_pair: int = CAT_COLOR_PAIR if is_cat \
 				else OBJ_COLOR_PAIRS[randrange(NUM_OBJ_COLOR_PAIRS)]
