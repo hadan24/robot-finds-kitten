@@ -10,7 +10,7 @@ class object_list:
 		for i in range(1, self.__size):
 			self.__list.append(self.__obj())
 			for j in range(0, i):
-				self.__fix_overlaps(i, j)
+				self.__fix_list_overlaps(i, j)
 
 	def draw_all(self, window) -> None:
 		for obj in self.__list:
@@ -31,7 +31,6 @@ class object_list:
 		for obj in self.__list:
 			if obj.x == x and obj.y == y:
 				w.addstr(0, 0, obj.msg, c.color_pair(obj.color_pair))
-				
 				return obj.symbol
 
 
@@ -44,7 +43,7 @@ class object_list:
 			self.x: int = randrange(MIN_X, MAX_X)
 			self.y: int = randrange(MIN_Y, MAX_Y)
 
-	def __fix_overlaps(self, i1, i2) -> None:
+	def __fix_list_overlaps(self, i1, i2) -> None:
 		curr: self.__obj = self.__list[i1]
 		to_cmp: self.__obj = self.__list[i2]
 

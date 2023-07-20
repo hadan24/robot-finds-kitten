@@ -18,10 +18,10 @@ targeting an entirely different player experience.
 
 2. My objects, symbols will be marked `thusly`:
 	* Battery `I` - consume to immediately regain a random, small percentage of battery life
-	* Portable Charger `d` - the next few steps (random amount) cost no battery life
+	* Portable Charger `d` - consume and the next few steps (random amount) will cost no battery life
 	* Wall `@` - multi-space, blocks path
 	* Wall socket `:` - interact for multiple turns to recharge as much as desired
-	* Enhanced parts `8` - can interact with objects from further away (can stack)
+	* Enhanced parts `*` - can interact with objects from further away (can stack)
 
 3. Each step or every few steps costs some battery life, and the robot
 	must find the kitten before running completely out.

@@ -1,5 +1,5 @@
 from defs import c, randrange, PLAYER_COLOR_PAIR, \
-	MIN_X, MIN_Y, MAX_X, MAX_Y, MAX_BATTERY
+	MIN_X, MIN_Y, MAX_X, MAX_Y
 
 class player:
 	def __init__(self) -> None:
@@ -8,7 +8,8 @@ class player:
 		self.__y: int = randrange(MIN_Y, MAX_Y)
 		self.__color_pair: int = PLAYER_COLOR_PAIR
 		self.__step_size: int = 1
-		self.__battery: int = MAX_BATTERY
+		self.__battery_capacity: int = 50
+		self.__battery_lvl: int = self.__battery_capacity
 
 	# Returns coordinates for what's in front of player
 	#	for interaction/collision purposes
@@ -26,7 +27,7 @@ class player:
 		else:
 			return 0, 0
 
-	def move(self, key_pressed: int) -> int:
+	def move(self, key_pressed: int) -> None:
 		dir: str = self.__direction_from_key(key_pressed)
 
 		if dir == "up":			self.__y -= self.__step_size
@@ -35,21 +36,22 @@ class player:
 		elif dir == "right":	self.__x += self.__step_size
 
 		if dir != "invalid":	self.__battery -= randrange(2)
-
 		self.__screen_wrap()
-		return self.__battery
 
 	def draw(self, window) -> None:
 		window.addch(self.__y, self.__x, \
 	       self.__symbol, c.color_pair(self.__color_pair))
 		
 		battery_UI = f" current battery % = " + \
-			f"{self.__battery}/{MAX_BATTERY} "
+			f"{self.__battery}/{self.__battery_capacity} "
 		window.addstr(0, MAX_X-len(battery_UI)+1, battery_UI, \
 			c.color_pair(self.__color_pair))
 		
 	def apply_obj_effect(self, obj: chr):
 		pass
+
+	def battery_dead(self) -> bool:
+		return self.__battery_lvl <= 0
 	
 
 	# *** Little helper section :) ***

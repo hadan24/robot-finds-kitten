@@ -1,6 +1,8 @@
 from defs import *
 from player import player
 from objects import object_list
+import time as t
+from sys import exit
 
 # Game initializations and
 #	curses settings not done in wrapper
@@ -92,9 +94,9 @@ def win_cutscene(window) -> None:
 	# *   #M
 	robot_start: int = len(CAT[1]) + 2
 	kitty_start: int = robot_start + 7
-	cutscene_start = time.time()
+	cutscene_start = t.time()
 	wait_time: float = 1.25
-	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
+	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
 
 	window.clear()
 	window.addstr(0, 0, CAT[1], c.color_pair(CAT_COLOR_PAIR))
@@ -102,7 +104,7 @@ def win_cutscene(window) -> None:
 		c.color_pair(PLAYER_COLOR_PAIR))
 	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
-	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
+	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
 
 	window.clear()
 	window.addstr(0, 0, CAT[1], c.color_pair(CAT_COLOR_PAIR))
@@ -111,7 +113,7 @@ def win_cutscene(window) -> None:
 	window.addch(0, kitty_start - 2, CAT[0],
 		c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
-	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
+	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
 
 	window.clear()
 	window.addstr(0, 0, CAT[1], c.color_pair(CAT_COLOR_PAIR))
@@ -120,7 +122,7 @@ def win_cutscene(window) -> None:
 	window.addch(0, kitty_start - 3, CAT[0],
 		c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
-	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
+	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
 
 def lose_cutscene(window) -> None:
 	# Animation goal
@@ -131,7 +133,7 @@ def lose_cutscene(window) -> None:
 	lose_msg: str = " Oh no your battery has run out! You lose... "
 	robot_start: int = len(lose_msg) + 2
 	kitty_start: int = robot_start + 7
-	cutscene_start = time.time()
+	cutscene_start = t.time()
 	wait_time: float = 1.25
 
 	window.clear()
@@ -140,7 +142,7 @@ def lose_cutscene(window) -> None:
 		c.color_pair(PLAYER_COLOR_PAIR))
 	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
-	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
+	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
 
 	window.clear()
 	window.addstr(0, 0, lose_msg, c.color_pair(CAT_COLOR_PAIR))
@@ -148,7 +150,7 @@ def lose_cutscene(window) -> None:
 		c.color_pair(PLAYER_COLOR_PAIR))
 	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
-	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
+	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
 
 	window.clear()
 	window.addstr(0, 0, lose_msg, c.color_pair(CAT_COLOR_PAIR))
@@ -156,7 +158,7 @@ def lose_cutscene(window) -> None:
 		c.color_pair(PLAYER_COLOR_PAIR))
 	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
-	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
+	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
 
 	window.clear()
 	window.addstr(0, 0, lose_msg, c.color_pair(CAT_COLOR_PAIR))
@@ -164,7 +166,14 @@ def lose_cutscene(window) -> None:
 		c.color_pair(PLAYER_COLOR_PAIR))
 	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
-	time.sleep(wait_time - ((time.time()-cutscene_start) % wait_time))
+	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
+
+def quit_message(window) -> None:
+	window.addstr(1, 0, " Press any key to quit. ",
+		c.color_pair(PLAYER_COLOR_PAIR))
+	window.refresh()
+	c.flushinp()
+	window.getch()
 
 def main(w):
 	start()
@@ -175,44 +184,40 @@ def main(w):
 		# number of objects should scale w/ window area
 
 	ch: int = 0
-	player_won: bool = False
-	curr_battery = MAX_BATTERY
+	player_quit: bool = False
+	game_done: bool = False
+	player_won: bool = False	# False = lose, True = win
 
-	while (ch != ord('q')) and (not player_won) \
-		and (curr_battery > 0):
-
-		ch = w.getch()
-
+	while not (player_quit or game_done):
 		w.clear()
 		check_x, check_y = robot.get_collision_coordinates(ch)
 
 		if objs.check_collisions(check_x, check_y):
-			interacted = objs.interact(check_x, check_y, w)
-			player_won = True if interacted == CAT[0] else False
+			interacted: chr = objs.interact(check_x, check_y, w)
+			game_done = player_won = \
+				True if interacted == CAT[0] else False
 			robot.apply_obj_effect(interacted)
 		else:
-			curr_battery = robot.move(ch)
+			robot.move(ch)
+			game_done = True if robot.battery_dead() else False
+			# No need to explicitly change player_won since loss is
+			#	assume until kitten is found
 
 		robot.draw(w)
 		objs.draw_all(w)
 		w.refresh()
-		
-	cutscene_window = c.newwin(1, MAX_X+1, 0, 0)
-	if curr_battery <= 0:
-		lose_cutscene(cutscene_window)
-		w.addstr(1, 0, " Press any key to quit. ",
-	   		c.color_pair(PLAYER_COLOR_PAIR))
-		w.refresh()
-		c.flushinp()
-		w.getch()
+		ch = w.getch()
+		player_quit = ch == ord('q')
 
+	if player_quit:	exit(0)
+
+	cutscene_window = c.newwin(1, MAX_X+1, 0, 0)
+	if not player_won:
+		lose_cutscene(cutscene_window)
 	elif player_won:
 		win_cutscene(cutscene_window)
-		w.addstr(1, 0, " Press any key to quit. ",
-	   		c.color_pair(PLAYER_COLOR_PAIR))
-		w.refresh()
-		c.flushinp()
-		w.getch()
+	
+	quit_message()
 
 # Automatically turns off echo
 # 	and turns on cbreak, keypad, colors (if supported)

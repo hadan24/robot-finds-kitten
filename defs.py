@@ -1,10 +1,8 @@
 import curses as c
 from random import randrange, seed
-import time
 
 PLAYER_COLOR_PAIR: int = 1
 PLAYER_CHAR: chr = '#'
-MAX_BATTERY: int = 50
 
 CAT: tuple[chr, str] = ('M', " Congratulations! You found kitten! ")
 CAT_COLOR_PAIR: int = 2
@@ -14,7 +12,7 @@ OBJS: list[tuple[chr, str]] = [
 	('d', " This portable charger can keep you going for a bit. "),
 	('@', " Drats, a wall. Gonna have to go around it. "),
 	(':', " A wall socket. Seems like a good time to plug in. "),
-	('8', " Enhanced parts! These'll save a few steps. ")
+	('*', " Enhanced parts! These'll save a few steps. ")
 ]
 NUM_OBJS: int = len(OBJS)
 
