@@ -1,5 +1,6 @@
 import curses as c
 from random import randrange, seed
+import time as t
 
 PLAYER_COLOR_PAIR: int = 1
 PLAYER_CHAR: chr = '#'

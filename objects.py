@@ -41,6 +41,13 @@ class object_list:
 				obj.x += (i+1) if (obj.x-1) <= MIN_X else -(i+1)
 			else:	i += 1
 
+	def destroy(self, x: int, y: int) -> None:
+		for i in range(len(self.__list)):
+			obj = self.__list[i]
+			if obj.x == x and obj.y == y:
+				self.__list.pop(i)
+				return
+
 
 	class __obj:
 		def __init__(self, is_cat: bool = False) -> None:

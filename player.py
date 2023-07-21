@@ -12,6 +12,7 @@ class player:
 
 		self.__battery_capacity: int = 50
 		self.__battery_lvl: int = self.__battery_capacity
+		self.__fast_mode: bool = False
 
 	# Returns coordinates for what's in front of player
 	#	for interaction/collision purposes
@@ -67,6 +68,8 @@ class player:
 				min(self.__battery_lvl+2, self.__battery_capacity)
 			return False
 		if obj == '*':
+			self.__step_size += 1
+			self.__fast_mode = True
 			return True
 
 	def battery_dead(self) -> bool:
