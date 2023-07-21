@@ -35,6 +35,7 @@ def main(w):
 			if consumable: objs.destroy(check_x, check_y)
 		else:
 			robot.move(ch)
+			if ch == ord('b'):	robot.toggle_fast_mode()
 			game_done = True if robot.battery_dead() else False
 			# No need to explicitly change player_won since loss is
 			#	assume until kitten is found

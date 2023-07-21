@@ -21,7 +21,8 @@ def start() -> None:
 		c.init_color(COLOR_PURPLE, 500, 300, 800)
 		c.init_color(COLOR_LAVENDER, 600, 600, 800)
 
-	c.init_pair(PLAYER_COLOR_PAIR, COLOR_BLACK, COLOR_CYAN)
+	c.init_pair(PLAYER_DEFAULT_COLOR_PAIR, COLOR_BLACK, COLOR_CYAN)
+	c.init_pair(PLAYER_FAST_COLOR_PAIR, COLOR_BLACK, COLOR_YELLOW)
 	c.init_pair(CAT_COLOR_PAIR, COLOR_BLACK, COLOR_ORANGE)
 	for i in range(NUM_OBJ_COLOR_PAIRS):
 		c.init_pair(OBJ_COLOR_PAIRS[i], i+1, COLOR_BLACK)
@@ -57,7 +58,7 @@ def title_screen(window) -> None:
 
 	window.addstr(title_line+2, left_margin, player_char, title_attribute)
 	window.addch(title_line+2, left_margin+len(player_char),
-	 	PLAYER_CHAR, c.color_pair(PLAYER_COLOR_PAIR))
+	 	PLAYER_CHAR, c.color_pair(PLAYER_DEFAULT_COLOR_PAIR))
 
 	window.addstr(title_line+3, left_margin, goal, title_attribute)
 	window.addch(title_line+3, left_margin+len(goal), CAT[0],
@@ -101,8 +102,8 @@ def help_screen(window) -> None:
 	wall: str = "(@) Wall: just a wall, it just sits there. "
 	socket: str = "(:) Socket: continually interact to recharge " + \
 		"your batter a bit."
-	parts1: str = "(*) Spare parts: consume to attach them to " + \
-		"yourself for faster movement. "
+	parts1: str = "(*) Spare parts: attach to self for faster " + \
+		"movement (may cause one to pass through walls). "
 	parts2: str = "(Faster movement can be toggled on or off " + \
 		"by pressing B.) "
 	b_offset: int = len(parts2) - 4
@@ -148,7 +149,7 @@ def win_cutscene(window) -> None:
 	window.clear()
 	window.addstr(0, 0, CAT[1], c.color_pair(CAT_COLOR_PAIR))
 	window.addch(0, robot_start, PLAYER_CHAR,
-		c.color_pair(PLAYER_COLOR_PAIR))
+		c.color_pair(PLAYER_DEFAULT_COLOR_PAIR))
 	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
 	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
@@ -156,7 +157,7 @@ def win_cutscene(window) -> None:
 	window.clear()
 	window.addstr(0, 0, CAT[1], c.color_pair(CAT_COLOR_PAIR))
 	window.addch(0, robot_start + 2, PLAYER_CHAR,
-		c.color_pair(PLAYER_COLOR_PAIR))
+		c.color_pair(PLAYER_DEFAULT_COLOR_PAIR))
 	window.addch(0, kitty_start - 2, CAT[0],
 		c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
@@ -165,7 +166,7 @@ def win_cutscene(window) -> None:
 	window.clear()
 	window.addstr(0, 0, CAT[1], c.color_pair(CAT_COLOR_PAIR))
 	window.addch(0, robot_start + 3, PLAYER_CHAR,
-		c.color_pair(PLAYER_COLOR_PAIR))
+		c.color_pair(PLAYER_DEFAULT_COLOR_PAIR))
 	window.addch(0, kitty_start - 3, CAT[0],
 		c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
@@ -186,7 +187,7 @@ def lose_cutscene(window) -> None:
 	window.clear()
 	window.addstr(0, 0, lose_msg, c.color_pair(CAT_COLOR_PAIR))
 	window.addch(0, robot_start, PLAYER_CHAR,
-		c.color_pair(PLAYER_COLOR_PAIR))
+		c.color_pair(PLAYER_DEFAULT_COLOR_PAIR))
 	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
 	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
@@ -194,7 +195,7 @@ def lose_cutscene(window) -> None:
 	window.clear()
 	window.addstr(0, 0, lose_msg, c.color_pair(CAT_COLOR_PAIR))
 	window.addch(0, robot_start + 2, 'H',
-		c.color_pair(PLAYER_COLOR_PAIR))
+		c.color_pair(PLAYER_DEFAULT_COLOR_PAIR))
 	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
 	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
@@ -202,7 +203,7 @@ def lose_cutscene(window) -> None:
 	window.clear()
 	window.addstr(0, 0, lose_msg, c.color_pair(CAT_COLOR_PAIR))
 	window.addch(0, robot_start + 3, 'f',
-		c.color_pair(PLAYER_COLOR_PAIR))
+		c.color_pair(PLAYER_DEFAULT_COLOR_PAIR))
 	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
 	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
@@ -210,14 +211,14 @@ def lose_cutscene(window) -> None:
 	window.clear()
 	window.addstr(0, 0, lose_msg, c.color_pair(CAT_COLOR_PAIR))
 	window.addch(0, robot_start + 4, '_',
-		c.color_pair(PLAYER_COLOR_PAIR))
+		c.color_pair(PLAYER_DEFAULT_COLOR_PAIR))
 	window.addch(0, kitty_start, CAT[0], c.color_pair(CAT_COLOR_PAIR))
 	window.refresh()
 	t.sleep(wait_time - ((t.time()-cutscene_start) % wait_time))
 
 def game_quit_message(window) -> None:
 	window.addstr(1, 0, " Press any key to quit. ",
-		c.color_pair(PLAYER_COLOR_PAIR))
+		c.color_pair(PLAYER_DEFAULT_COLOR_PAIR))
 	window.refresh()
 	c.flushinp()
 	window.getch()

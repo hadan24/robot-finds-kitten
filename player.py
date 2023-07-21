@@ -1,12 +1,12 @@
-from defs import c, randrange, PLAYER_COLOR_PAIR, \
-	MIN_X, MIN_Y, MAX_X, MAX_Y
+from defs import c, randrange, MIN_X, MIN_Y, MAX_X, MAX_Y, \
+	PLAYER_DEFAULT_COLOR_PAIR, PLAYER_FAST_COLOR_PAIR
 
 class player:
 	def __init__(self) -> None:
 		self.__symbol: chr = '#'
 		self.__x: int = randrange(MIN_X, MAX_X)
 		self.__y: int = randrange(MIN_Y, MAX_Y)
-		self.__color_pair: int = PLAYER_COLOR_PAIR
+		self.__color_pair: int = PLAYER_DEFAULT_COLOR_PAIR
 		
 		self.__step_size: int = 1
 
@@ -21,36 +21,41 @@ class player:
 		tuple[int, int]:
 
 		dir: str = self.__direction_from_key(key_pressed)
+		actual_step = self.__step_size if self.__fast_mode else 1
+		
 		if dir == "up":
-			return (self.__x, self.__y-self.__step_size)
+			return (self.__x, self.__y-actual_step)
 		if dir == "left":
-			return (self.__x-self.__step_size, self.__y)
+			return (self.__x-actual_step, self.__y)
 		if dir == "down":
-			return (self.__x, self.__y+self.__step_size)
+			return (self.__x, self.__y+actual_step)
 		if dir == "right":
-			return (self.__x+self.__step_size, self.__y)
+			return (self.__x+actual_step, self.__y)
 		else:
 			return 0, 0
 
 	def move(self, key_pressed: int) -> None:
 		dir: str = self.__direction_from_key(key_pressed)
+		actual_step = self.__step_size if self.__fast_mode else 1
 
-		if dir == "up":			self.__y -= self.__step_size
-		elif dir == "left":		self.__x -= self.__step_size
-		elif dir == "down":		self.__y += self.__step_size
-		elif dir == "right":	self.__x += self.__step_size
+		if dir == "up":			self.__y -= actual_step
+		elif dir == "left":		self.__x -= actual_step
+		elif dir == "down":		self.__y += actual_step
+		elif dir == "right":	self.__x += actual_step
 
 		if dir != "invalid":	self.__battery_lvl -= randrange(2)
 		self.__screen_wrap()
 
 	def draw(self, window) -> None:
+		curr_color_pair = PLAYER_FAST_COLOR_PAIR if \
+			self.__fast_mode else self.__color_pair
 		window.addch(self.__y, self.__x, \
-	       self.__symbol, c.color_pair(self.__color_pair))
+	       self.__symbol, c.color_pair(curr_color_pair))
 		
 		battery_UI = f" current battery % = " + \
 			f"{self.__battery_lvl}/{self.__battery_capacity} "
 		window.addstr(0, MAX_X-len(battery_UI)+1, battery_UI, \
-			c.color_pair(self.__color_pair))
+			c.color_pair(curr_color_pair))
 		
 	def apply_obj_effect(self, obj: chr) -> bool:
 		if obj == 'I':
@@ -77,6 +82,9 @@ class player:
 	
 	def location(self) -> tuple[int, int]:
 		return self.__x, self.__y
+	
+	def toggle_fast_mode(self) -> None:
+		self.__fast_mode = not self.__fast_mode
 	
 
 	# *** Little helper section :) ***

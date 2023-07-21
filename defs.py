@@ -2,11 +2,12 @@ import curses as c
 from random import randrange, seed
 import time as t
 
-PLAYER_COLOR_PAIR: int = 1
+PLAYER_DEFAULT_COLOR_PAIR: int = 1
+PLAYER_FAST_COLOR_PAIR: int = 2
 PLAYER_CHAR: chr = '#'
 
 CAT: tuple[chr, str] = ('M', " Congratulations! You found kitten! ")
-CAT_COLOR_PAIR: int = 2
+CAT_COLOR_PAIR: int = 3
 
 OBJS: list[tuple[chr, str]] = [
 	('I', " A battery! Some much-needed juice. "),
@@ -33,7 +34,7 @@ COLOR_ORANGE: int = 9
 COLOR_PURPLE: int = 10
 COLOR_LAVENDER: int = 11
 
-OBJ_COLOR_PAIR_OFFSET: int = 2
+OBJ_COLOR_PAIR_OFFSET: int = 3
 GRAY_PAIR: int = COLOR_GRAY + OBJ_COLOR_PAIR_OFFSET
 WHITE_PAIR: int = COLOR_WHITE + OBJ_COLOR_PAIR_OFFSET
 RED_PAIR: int = COLOR_RED + OBJ_COLOR_PAIR_OFFSET
