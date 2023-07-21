@@ -17,7 +17,7 @@ def main(w):
 	ch: int = 0
 	player_quit: bool = False
 	game_done: bool = False
-	player_won: bool = False	# False = lose, True = win
+	player_won: bool = False	# False => lose, True => win
 
 	while not (player_quit or game_done):
 		ch = w.getch()

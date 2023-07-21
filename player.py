@@ -1,9 +1,9 @@
 from defs import c, randrange, MIN_X, MIN_Y, MAX_X, MAX_Y, \
-	PLAYER_DEFAULT_COLOR_PAIR, PLAYER_FAST_COLOR_PAIR
+	PLAYER_DEFAULT_COLOR_PAIR, PLAYER_FAST_COLOR_PAIR, PLAYER_CHAR
 
 class player:
 	def __init__(self) -> None:
-		self.__symbol: chr = '#'
+		self.__symbol: chr = PLAYER_CHAR
 		self.__x: int = randrange(MIN_X, MAX_X)
 		self.__y: int = randrange(MIN_Y, MAX_Y)
 		self.__color_pair: int = PLAYER_DEFAULT_COLOR_PAIR
@@ -14,8 +14,8 @@ class player:
 		self.__battery_lvl: int = self.__battery_capacity
 		self.__fast_mode: bool = False
 
-	# Returns coordinates for what's in front of player
-	#	for interaction/collision purposes
+	# Returns coordinates for what's in front of player in the
+	#	given direction for interaction/collision purposes
 	#	*** ideally should be called BEFORE moving player ***
 	def get_collision_coordinates(self, key_pressed: int) -> \
 		tuple[int, int]:
@@ -23,16 +23,11 @@ class player:
 		dir: str = self.__direction_from_key(key_pressed)
 		actual_step = self.__step_size if self.__fast_mode else 1
 		
-		if dir == "up":
-			return (self.__x, self.__y-actual_step)
-		if dir == "left":
-			return (self.__x-actual_step, self.__y)
-		if dir == "down":
-			return (self.__x, self.__y+actual_step)
-		if dir == "right":
-			return (self.__x+actual_step, self.__y)
-		else:
-			return 0, 0
+		if dir == "up":		return (self.__x, self.__y-actual_step)
+		if dir == "left":	return (self.__x-actual_step, self.__y)
+		if dir == "down":	return (self.__x, self.__y+actual_step)
+		if dir == "right":	return (self.__x+actual_step, self.__y)
+		else:	return 0, 0
 
 	def move(self, key_pressed: int) -> None:
 		dir: str = self.__direction_from_key(key_pressed)
@@ -57,6 +52,10 @@ class player:
 		window.addstr(0, MAX_X-len(battery_UI)+1, battery_UI, \
 			c.color_pair(curr_color_pair))
 		
+	# Takes an in-game object (represented by its character) and
+	#	applies the corresponding special effect upon interaction,
+	#	returns whether the object type is destructible so the
+	#	object list can properly remove it
 	def apply_obj_effect(self, obj: chr) -> bool:
 		if obj == 'I':
 			self.__battery_lvl += 3

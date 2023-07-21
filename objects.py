@@ -3,8 +3,7 @@ from defs import c, randrange, CAT, CAT_COLOR_PAIR,	MIN_X, MIN_Y, \
 
 class object_list:
 	def __init__(self, to_spawn: int = 0) -> None:
-		# 1st obj is always cat
-		self.__list = [self.__obj(True)]
+		self.__list = [self.__obj(True)]	# 1st obj is always cat
 		self.__size = to_spawn + 1
 
 		for i in range(1, self.__size):
@@ -25,14 +24,17 @@ class object_list:
 				return True
 		return False
 	
-	# Let's interacter do stuff with the object on the given space,
-	#	returns whether the object's symbol for special effects
+	# Detects if an object has been interacted with and displays
+	#	its flavor text, returns its symbol for special effects
 	def interact(self, x: int, y: int, w) -> chr:
 		for obj in self.__list:
 			if obj.x == x and obj.y == y:
 				w.addstr(0, 0, obj.msg, c.color_pair(obj.color_pair))
 				return obj.symbol
+		return '\0'
 
+	# Ensures the player does not overlap with any objects, (may be
+	#	turned into global function to work with any two objects)
 	def fix_external_overlaps(self, ext_x: int, ext_y: int) -> None:
 		i = 0
 		while i < self.__size:

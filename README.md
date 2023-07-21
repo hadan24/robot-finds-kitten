@@ -24,9 +24,16 @@ targeting an entirely different player experience.
 	* Enhanced parts `*` - can interact with objects from further away (can stack)
 
 3. Each step or every few steps costs some battery life, and the robot
-	must find the kitten before running completely out.
+	must find the kitten before running completely out. This is, in
+	effect, a timer but is much easier to implement as the value only
+	changes when the player makes a move. Using a battery metaphor
+	instead of a normal clock timer also allows for a more fitting,
+	"robot-flavored" take on the limited time idea.
 
-4. 
+4. Because I tested each feature in some common edge cases as I
+	implemented them, I am fairly confident the game is bug-free.
+	However, extremely extreme edge case bugs that I haven't yet
+	thought of may still be possible.
 
 5. 
 
@@ -42,7 +49,20 @@ targeting an entirely different player experience.
 
 ## How it went
 
-* TBA
+The start of the project was very rough with trying to decide on a
+language to use and find a corresponding terminal ASCII graphics
+library. I could not find one for C# with clear build instructions and
+I made good headway with C++ before realizing I had no clue how to
+export it with the correct `.dll`s for others to play without using
+my machine. I finally settled on Python as the remote playtesters I
+had in mind all had Python interpreters.
+
+After that gigantic mess of a hurdle, creating the game was not very
+difficult since the logic is very simple. The more difficult part was
+deciding how and where to draw the boundaries between my objects and
+how to keep them separate and encapsulated while still allowing
+interaction for my desired special effects. While I found a solution
+that works, I am unsure of whether this would scale.
 
 
 ## What must still be done
