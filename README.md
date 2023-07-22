@@ -7,6 +7,18 @@ Portland State University, taught by Dr. Bart Massey.
 A remaking of the classic _Robot Finds Kitten_ (RFK) game
 targeting an entirely different player experience.
 
+## Build Instructions
+If you have Python 3.11.3 or another compatible version:
+* Create an environment
+* Run	`pip install -r requirements.txt`
+* Run	`py robot-finds-kitten.py`
+
+If you don't/can't build it yourself, AND you have a Windows machine:
+* Simply download the `.exe` in `dist`
+
+At the moment, other operating systems and Python versions are not
+safely supported in this project, if at all.
+
 ## Design Questions
 1. With my changes to RFK, I want to create a more challenging
 	puzzle/strategy game-like experience where finding the kitten
@@ -17,11 +29,15 @@ targeting an entirely different player experience.
 	game in terms of finding that minimal path.
 
 2. My objects (symbols will be marked `thusly`):
-	* Battery `I` - consume to immediately regain a random, small percentage of battery life
-	* Portable Charger `d` - consume and the next few steps (random amount) will cost no battery life
-	* Wall `@` - multi-space, blocks path
-	* Wall socket `:` - interact for multiple turns to recharge as much as desired
-	* Enhanced parts `*` - can interact with objects from further away (can stack)
+	* Battery (`I`) - consume to immediately regain a random, small percentage of battery life
+
+	* Portable Charger (`d`) - consume and the next few steps (random amount) will cost no battery life
+
+	* Wall (`@`) - multi-space, blocks path
+
+	* Wall socket (`:`) - interact for multiple turns to recharge as much as desired
+
+	* Enhanced parts (`*`) - can interact with objects from further away (can stack)
 
 3. Each step or every few steps costs some battery life, and the robot
 	must find the kitten before running completely out. This is, in
