@@ -20,10 +20,9 @@ def main(w):
 	player_won: bool = False	# False -> lose, True -> win
 
 	while not (player_quit or game_done):
-		w.clear()
-
 		if ch == ord('h'):	help_screen(w)
 
+		w.clear()
 		check_x, check_y = robot.get_collision_coordinates(ch)
 
 		if objs.check_collisions(check_x, check_y):
@@ -42,7 +41,7 @@ def main(w):
 		robot.draw(w)
 		objs.draw_all(w)
 		w.refresh()
-		
+
 		ch = w.getch()
 		player_quit = (ch == ord('q'))
 
