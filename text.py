@@ -46,7 +46,7 @@ def title_screen(window) -> None:
 	controls: str = "Use WASD or the arrow keys to move. "
 	wasd_offset: int = 4
 	arrow_keys_offest: int = 16
-	begin: str = "Press almost any key to start playing. "
+	begin: str = "Press P to start playing. "
 	quit: str = "Press Q at any time to quit. "
 	help: str = "Press H at any time for item information. "
 	button_offset: int = 6
@@ -75,18 +75,30 @@ def title_screen(window) -> None:
 		"arrow keys", c.color_pair(CYAN_PAIR))
 	
 	window.addstr(title_line+7, left_margin, begin, title_attribute)
+	window.addch(title_line+7, left_margin+button_offset, 'P',
+		c.color_pair(GREEN_PAIR))
+
 	window.addstr(title_line+8, left_margin, quit, title_attribute)
 	window.addch(title_line+8, left_margin+button_offset, 'Q',
 		c.color_pair(RED_PAIR))
 	window.addstr(title_line+8, left_margin+len(quit), help,
 	    title_attribute)
 	window.addch(title_line+8, left_margin+len(quit)+button_offset,
-		'H', c.color_pair(GREEN_PAIR))
+		'H', c.color_pair(MAGENTA_PAIR))
 	
 	window.addstr(title_line+10, left_margin, sendoff,
 		c.color_pair(LAVENDER_PAIR))
 
 	window.refresh()
+	c.flushinp()
+
+	ch: int = 0
+	while (ch != ord('p')) and (ch != ord('q')) and (ch != ord('h')):
+		ch = window.getch()
+		
+	if ch == ord('p'):	return
+	if ch == ord('h'):	help_screen(window)
+	if ch == ord('q'):	exit(0)
 
 def help_screen(window) -> None:
 	window.clear()
@@ -107,7 +119,7 @@ def help_screen(window) -> None:
 	parts2: str = "(Faster movement can be toggled on or off " + \
 		"by pressing B.) "
 	b_offset: int = len(parts2) - 4
-	close: str = "Press any key to return to the game (Q to quit). "
+	close: str = "Press P to return to the game, or Q to quit. "
 	
 	window.addstr(start_line, left_margin, battery, text_attribute)
 	window.addch(start_line, left_margin+1, 'I', symbol_attribute)
@@ -128,12 +140,18 @@ def help_screen(window) -> None:
 		c.color_pair(ORANGE_PAIR))
 	
 	window.addstr(start_line+7, left_margin, close, text_attribute)
-	window.addch(start_line+7, left_margin+len(close)-12, 'Q',
+	window.addch(start_line+7, left_margin+6, 'P',
+		c.color_pair(GREEN_PAIR))
+	window.addch(start_line+7, left_margin+len(close)-11, 'Q',
 		c.color_pair(RED_PAIR))
 
 	window.refresh()
 	c.flushinp()
-	if window.getch() == ord('q'):	exit(0)
+	ch: int = 0
+	while (ch != ord('p')) and (ch != ord('q')):
+		ch = window.getch()
+	if ch == ord('p'):	return
+	if ch == ord('q'):	exit(0)
 
 def win_cutscene(window) -> None:
 	# Animation goal

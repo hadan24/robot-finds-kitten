@@ -17,14 +17,18 @@ def main(w):
 	ch: int = 0
 	player_quit: bool = False
 	game_done: bool = False
-	player_won: bool = False	# False => lose, True => win
+	player_won: bool = False	# False -> lose, True -> win
 
 	while not (player_quit or game_done):
+		w.clear()
+		robot.draw(w)
+		objs.draw_all(w)
+		w.refresh()
+
 		ch = w.getch()
 
 		if ch == ord('h'):	help_screen(w)
 
-		w.clear()
 		check_x, check_y = robot.get_collision_coordinates(ch)
 
 		if objs.check_collisions(check_x, check_y):
@@ -39,11 +43,8 @@ def main(w):
 			game_done = True if robot.battery_dead() else False
 			# No need to explicitly change player_won since loss is
 			#	assume until kitten is found
-
-		robot.draw(w)
-		objs.draw_all(w)
-		w.refresh()
-		player_quit = ch == ord('q')
+		
+		player_quit = (ch == ord('q'))
 
 	if player_quit:	exit(0)
 
