@@ -21,11 +21,6 @@ def main(w):
 
 	while not (player_quit or game_done):
 		w.clear()
-		robot.draw(w)
-		objs.draw_all(w)
-		w.refresh()
-
-		ch = w.getch()
 
 		if ch == ord('h'):	help_screen(w)
 
@@ -44,6 +39,11 @@ def main(w):
 			# No need to explicitly change player_won since loss is
 			#	assume until kitten is found
 		
+		robot.draw(w)
+		objs.draw_all(w)
+		w.refresh()
+		
+		ch = w.getch()
 		player_quit = (ch == ord('q'))
 
 	if player_quit:	exit(0)
