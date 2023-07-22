@@ -13,12 +13,6 @@ If you have Python 3.11.3 or another compatible version:
 * Run	`pip install -r requirements.txt`
 * Run	`py robot-finds-kitten.py`
 
-If you don't/can't build it yourself, AND you have a Windows machine:
-* Simply download the `.exe` in `dist`
-
-At the moment, other operating systems and Python versions are not
-safely supported in this project, if at all.
-
 ## Design Questions
 1. With my changes to RFK, I want to create a more challenging
 	puzzle/strategy game-like experience where finding the kitten
