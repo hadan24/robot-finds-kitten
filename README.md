@@ -45,9 +45,25 @@ If you have Python 3.11.3 or another compatible version:
 	However, extremely extreme edge case bugs that I haven't yet
 	thought of may still be possible.
 
-5. 
+5. Overall, my playtester had a very easy time with finding the kitten
+	before their battery ran out. The times they did lose were early
+	on in the session where they were unfamiliar with how items worked.
+	It was not very tense at all, which could be attributed both to the
+	high starting battery total and how abundant the items were. The
+	fact that the kitten was highlighted and conspicuous also took away
+	from the intensity; I intended for that feature to allow the player
+	to focus on finding the best path and collecting the best items
+	along the way, but their first instinct was to make a mad dash for
+	the kitten, ignoring any items until the end was near.
 
-6. 
+6. The experience arises from the game and its elements, and I did not
+	fully account for how the original RFK's elements added to its
+	experience. While the hidden kitten allows and incentivizes one to
+	focus more on the searching journey, checking each item along the
+	way, it also added a little bit of tension as the player wonders 
+	"where is it going to be this time?" and "is it this one? That
+	one?" Revealing the kitten takes that away and forces my version
+	to rely solely on the battery mechanic to create tension.
 
 7. My "AAA" version would include more potential items to interact
 	with and thus more ways to obstruct or help the player. Since I
@@ -72,9 +88,18 @@ difficult since the logic is very simple. The more difficult part was
 deciding how and where to draw the boundaries between my objects and
 how to keep them separate and encapsulated while still allowing
 interaction for my desired special effects. While I found a solution
-that works, I am unsure of whether this would scale.
+that works, I am unsure of whether this would scale. Playtesting was
+surprisingly easy and painless, likely also because the game is so
+simple. Some failures with my design (in terms of the desired player
+experience) were also obvious from the start.
 
 
 ## What must still be done
 
-* TBA
+* From here, I would like to fix the existing issues I found while
+	play-testing which include: making the directions more prominent, 
+	including movement controls on the help screen, lowering the
+	starting battery value, and adding a restart button for easy
+	replayability. After that, I would do more play-testing until this
+	core was strong, then build on it to eventually reach that "AAA"
+	version mentioned in question 7.
