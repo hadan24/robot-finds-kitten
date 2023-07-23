@@ -42,8 +42,9 @@ def main(w):
 		objs.draw_all(w)
 		w.refresh()
 
-		ch = w.getch()
-		player_quit = (ch == ord('q'))
+		if not game_done:
+			ch = w.getch()
+			player_quit = (ch == ord('q'))
 
 	if player_quit:	exit(0)
 
